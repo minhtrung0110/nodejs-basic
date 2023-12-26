@@ -1,7 +1,3 @@
-import candidateRouter from "./candiates.js";
-import authRoutes from "./auth.js";
-export {
-    candidateRouter,
-    authRoutes
-}
-
+import candidateRouter from './candiates.js'
+import authRoutes from './auth.js'
+export { candidateRouter, authRoutes }
