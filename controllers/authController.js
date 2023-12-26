@@ -9,6 +9,7 @@ myEvent.on('event.register.user', (params) => {
     console.log('Trigger Event')
 })
 export const loginController = async (req, res) => {
+    debugger
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
@@ -16,10 +17,10 @@ export const loginController = async (req, res) => {
     const { email, password } = req?.body
     // check auth
     try {
-        await authRepository.login({ email, password })
+        const auth=await authRepository.login({ email, password })
         res.status(HttpStatusCodes.OK).json({
             message: 'Login successfully!',
-            data: [],
+            data: auth,
         })
     } catch (err) {
         return res

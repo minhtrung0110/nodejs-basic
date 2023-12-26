@@ -32,7 +32,6 @@ const Candidate = mongoose.model(
             },
             password: {
                 type: String,
-                required: true,
                 validate: {
                     validator: (value) => value.length > 6,
                     messages: '',

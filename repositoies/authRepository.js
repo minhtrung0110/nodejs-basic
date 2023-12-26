@@ -2,20 +2,34 @@ import Candidate from '../models/Candidate.js'
 import { OutputType } from '../helper/print.js'
 import Exception from '../exceptions/Exception.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const login = async ({ email, password }) => {
     try {
         let existingUser = await Candidate.findOne({ email }).exec()
         const isMatched = await bcrypt.compare(password, existingUser.password)
-        if (!!isMatch) {
+        if (!!isMatched) {
             // create Java Web Token
+            let token = jwt.sign(
+                {
+                    data: existingUser,
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: '30 days',
+                }
+            )
+            return {
+                ...existingUser.toObject(),
+                password: 'Not Show',
+                token,
+            }
         } else {
             throw new Exception(Exception.WRONG_EMAIL_OR_PASSWORD)
         }
     } catch (err) {
         throw new Exception(Exception.WRONG_EMAIL_OR_PASSWORD)
     }
-    console.log({ email, password })
 }
 const register = async ({
     email,
