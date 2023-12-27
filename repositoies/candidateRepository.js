@@ -46,10 +46,12 @@ const getAllCandidates = async ({ page, size, searchString }) => {
     }
 }
 
-
-
-
-const getCandidate = async ({}) => {}
+const getCandidateById = async (id) => {
+    debugger
+    const student = await Candidate.findById(id)
+    if (!student) throw new Exception('Cannot get candidate', OutputType.ERROR)
+    return student
+}
 const insert = async (candidate) => {
     try {
         //debugger
@@ -68,12 +70,30 @@ const insert = async (candidate) => {
     }
 }
 
-const update = async () => {}
+const update = async (id,candidate) => {
+    try {
+        const hashPassword = await bcrypt.hash(
+            candidate.password,
+            parseInt(process.env.SALT_ROUND)
+        )
+        return await Candidate.findOneAndUpdate({_id: id},{...candidate,password: hashPassword})
+    }
+    catch (err) {
+        throw new Exception('CANNOT_UPDATE_CANDIDATE',OutputType.ERROR)
+    }
+}
 
-const remove = async () => {}
+const remove = async (id) => {
+    try {
+        return await Candidate.deleteOne({_id: id})
+    }
+    catch (err) {
+        throw new Exception('CANNOT_DELETE_CANDIDATE',OutputType.ERROR)
+    }
+}
 
 export default {
-    getCandidate,
+    getCandidateById,
     getAllCandidates,
     insert,
     update,
