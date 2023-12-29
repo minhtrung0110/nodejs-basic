@@ -77,6 +77,11 @@ This project is licensed under the MIT License.
 
 Licensee: Nguyen Duc Minh Trung
 
+## Deploy
+* Branch Deploy : origin/production
+* Branch Features: origin/*
+* Branch Main: origin/master
+
 ## Acknowledgments
 
 Special thanks to contributors who have helped to improve this project.
