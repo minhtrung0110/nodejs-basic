@@ -1,1 +1,1 @@
-export const MAX_RECORD=100
+export const MAX_RECORD = 100

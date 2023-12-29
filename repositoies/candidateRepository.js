@@ -70,25 +70,26 @@ const insert = async (candidate) => {
     }
 }
 
-const update = async (id,candidate) => {
+const update = async (id, candidate) => {
     try {
         const hashPassword = await bcrypt.hash(
             candidate.password,
             parseInt(process.env.SALT_ROUND)
         )
-        return await Candidate.findOneAndUpdate({_id: id},{...candidate,password: hashPassword})
-    }
-    catch (err) {
-        throw new Exception('CANNOT_UPDATE_CANDIDATE',OutputType.ERROR)
+        return await Candidate.findOneAndUpdate(
+            { _id: id },
+            { ...candidate, password: hashPassword }
+        )
+    } catch (err) {
+        throw new Exception('CANNOT_UPDATE_CANDIDATE', OutputType.ERROR)
     }
 }
 
 const remove = async (id) => {
     try {
-        return await Candidate.deleteOne({_id: id})
-    }
-    catch (err) {
-        throw new Exception('CANNOT_DELETE_CANDIDATE',OutputType.ERROR)
+        return await Candidate.deleteOne({ _id: id })
+    } catch (err) {
+        throw new Exception('CANNOT_DELETE_CANDIDATE', OutputType.ERROR)
     }
 }
 

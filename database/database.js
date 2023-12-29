@@ -15,7 +15,7 @@ const connect = async () => {
         } else if (e.code === 'NOTFOUND') {
             throw new Exception(Exception.WRONG_SERVER_NAME_CONNECT_STRING)
         }
-        console.log('Error connecting:',e.toString())
+        console.log('Error connecting:', e.toString())
         throw new Exception(Exception.CANNOT_CONNECT_TO_MONGOOSE)
         debugger
     }

@@ -23,7 +23,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
     debugger
     try {
-        const result = await candidateRepository.update(req.params.id,req.body)
+        const result = await candidateRepository.update(req.params.id, req.body)
         if (!!result)
             return res.status(HttpStatusCodes.CREATED).json({
                 message: 'Update candidate successfully',
@@ -74,9 +74,8 @@ const getAll = async (req, res) => {
     }
 }
 const getById = async (req, res) => {
-
     try {
-        const id=req.params.id
+        const id = req.params.id
         console.log('ID:', id)
         if (id.match(/^[0-9a-fA-F]{24}$/)) {
             const candidate = await CandidateRepository.getCandidateById(id)
@@ -85,7 +84,6 @@ const getById = async (req, res) => {
                 data: candidate,
             })
         }
-
     } catch (err) {
         return res
             .status(HttpStatusCodes.BAD_REQUEST)

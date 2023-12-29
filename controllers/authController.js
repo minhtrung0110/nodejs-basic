@@ -17,7 +17,7 @@ export const loginController = async (req, res) => {
     const { email, password } = req?.body
     // check auth
     try {
-        const auth=await authRepository.login({ email, password })
+        const auth = await authRepository.login({ email, password })
         res.status(HttpStatusCodes.OK).json({
             message: 'Login successfully!',
             data: auth,
