@@ -15,15 +15,22 @@ export default function checkToken(req, res, next) {
     // other requests
     else {
         const token = req?.headers?.authorization?.split(' ')[1]
-
+        console.log(!!token ? token : 'not found')
         try {
-            const jwtObject = jwt.verify(token ?? '', process.env.JWT_SECRET)
-            if (jwtObject.exp * 1000 <= Date.now()) {
+            if (!!token) {
+                const jwtObject = jwt.verify(token, process.env.JWT_SECRET)
+                if (jwtObject.exp * 1000 <= Date.now()) {
+                    return res
+                        .status(HttpStatusCodes.BAD_REQUEST)
+                        .json({ message: 'Token is expired' })
+                    res.end()
+                } else next()
+            } else {
                 return res
                     .status(HttpStatusCodes.BAD_REQUEST)
-                    .json({ message: 'Token is expired' })
+                    .json({ message: 'Cannot Authentication' })
                 res.end()
-            } else next()
+            }
         } catch (err) {
             return res
                 .status(HttpStatusCodes.BAD_REQUEST)
