@@ -6,7 +6,8 @@ export default function checkToken(req, res, next) {
     // debugger
     if (
         req.url.toLowerCase().trim() === '/api/v1/login' ||
-        req.url.toLowerCase().trim() === '/api/v1/register'
+        req.url.toLowerCase().trim() === '/api/v1/register' ||
+        req.url.toLowerCase().trim() === '/'
     ) {
         next()
         return
