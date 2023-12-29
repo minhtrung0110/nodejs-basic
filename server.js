@@ -19,7 +19,7 @@ app.use(checkToken)
 app.use(express.json())
 
 // eslint-disable-next-line no-undef
-const port = process.env.PORT()
+const port = process.env.PORT
 
 // Router
 app.use('/',homeRoutes)
