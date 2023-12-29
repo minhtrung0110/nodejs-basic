@@ -16,7 +16,7 @@ export default function checkToken(req, res, next) {
     // other requests
     else {
         const token = req?.headers?.authorization?.split(' ')[1]
-        console.log(!!token ? token : 'not found')
+        //console.log(!!token ? token : 'not found')
         try {
             if (!!token) {
                 const jwtObject = jwt.verify(token, process.env.JWT_SECRET)
