@@ -1,3 +1,5 @@
 import candidateRouter from './candiates.js'
 import authRoutes from './auth.js'
-export { candidateRouter, authRoutes }
+import homeRoutes from './home.js'
+
+export { candidateRouter, authRoutes, homeRoutes }

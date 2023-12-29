@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv'
 import connect from './database/database.js'
 
 // Routers
-import { authRoutes, candidateRouter } from './routers/index.js'
+import { authRoutes, candidateRouter, homeRoutes } from './routers/index.js'
 import checkToken from './authentication/auth.js'
 import * as http from 'http'
 
@@ -19,9 +19,10 @@ app.use(checkToken)
 app.use(express.json())
 
 // eslint-disable-next-line no-undef
-const port = process.env.PORT
+const port = process.env.PORT()
 
 // Router
+app.use('/',homeRoutes)
 app.use('/api/v1/', authRoutes)
 app.use('/api/v1/candidates', candidateRouter)
 server.listen(port ?? 3000, async (req, res) => {
