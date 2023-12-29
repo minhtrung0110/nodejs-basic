@@ -17,19 +17,13 @@ export default function checkToken(req, res, next) {
         const token = req?.headers?.authorization?.split(' ')[1]
 
         try {
-            if (!!token) {
-                const jwtObject = jwt.verify(token, process.env.JWT_SECRET)
-                if (jwtObject.exp * 1000 <= Date.now()) {
-                    return res
-                        .status(HttpStatusCodes.BAD_REQUEST)
-                        .json({ message: 'Token is expired' })
-                    res.end()
-                } else next()
-            } else
+            const jwtObject = jwt.verify(token ?? '', process.env.JWT_SECRET)
+            if (jwtObject.exp * 1000 <= Date.now()) {
                 return res
                     .status(HttpStatusCodes.BAD_REQUEST)
-                    .json({ message: 'Token is not provide' })
-            res.end()
+                    .json({ message: 'Token is expired' })
+                res.end()
+            } else next()
         } catch (err) {
             return res
                 .status(HttpStatusCodes.BAD_REQUEST)
