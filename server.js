@@ -23,7 +23,7 @@ const port = process.env.PORT
 app.use('/api/v1/', authRoutes)
 app.use('/api/v1/candidates', candidateRouter)
 app.listen(port ?? 3000, async (req, res) => {
-    var conc = await connect()
-    console.log(`PORT: ${port}-${conc}`)
+    await connect()
+    //console.log(`PORT: ${port}-${conc}`)
     // res.json('DONE')
 })
