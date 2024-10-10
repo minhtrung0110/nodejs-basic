@@ -4,18 +4,30 @@ import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-// Load environment variables
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-dotenv.config({ path: path.resolve(__dirname, '../.env.development.local') })
+// Load environment variables only in local development
+if (process.env.VERCEL !== '1') {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    dotenv.config({ path: path.resolve(__dirname, '../.env.development.local') })
+}
 
 // Function to format the private key
 const formatPrivateKey = (key) => {
     if (!key) return null;
-    // If the key already contains newline characters, assume it's correctly formatted
-    if (key.includes('\n')) return key;
-    // Otherwise, add newline characters after every 64 characters
-    return key.replace(/(.{64})/g, '$1\n');
+    const header = '-----BEGIN PRIVATE KEY-----\n';
+    const footer = '\n-----END PRIVATE KEY-----\n';
+    const formattedKey = key.replace(/\\n/g, '\n').trim();
+
+    if (formattedKey.includes(header) && formattedKey.includes(footer)) {
+        return formattedKey;
+    }
+
+    return `${header}${formattedKey.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----|\s/g, '')}${footer}`;
+}
+
+// Function to remove extra quotes
+const removeExtraQuotes = (str) => {
+    return str ? str.replace(/^["']|["']$/g, '') : '';
 }
 
 // Firebase Admin SDK initialization
@@ -26,8 +38,8 @@ if (!admin.apps.length) {
     }
 
     const config = {
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        projectId: removeExtraQuotes(process.env.FIREBASE_PROJECT_ID),
+        clientEmail: removeExtraQuotes(process.env.FIREBASE_CLIENT_EMAIL),
         privateKey: privateKey,
     }
     console.log('Firebase config:', {
@@ -35,9 +47,15 @@ if (!admin.apps.length) {
         clientEmail: config.clientEmail,
         privateKeyLength: config.privateKey ? config.privateKey.length : 0,
     })
-    admin.initializeApp({
-        credential: admin.credential.cert(config),
-    })
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert(config),
+        })
+        console.log('Firebase Admin SDK initialized successfully');
+    } catch (error) {
+        console.error('Error initializing Firebase Admin SDK:', error);
+        throw error;
+    }
 }
 
 // Send Notification function
