@@ -1,3 +1,5 @@
 import authController from './authController.js'
 import candidateController from './candidateController.js'
-export { authController, candidateController }
+import notificationController from './notificationController.js'
+
+export { authController, candidateController, notificationController }

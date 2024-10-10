@@ -28,3 +28,4 @@ Thumbs.db
 
 # User-specific files
 npm-debug.log
+config/firebase_key.json
