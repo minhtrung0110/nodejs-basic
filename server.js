@@ -37,7 +37,7 @@
 // Libraries
 import express from 'express'
 import * as dotenv from 'dotenv'
-
+import cors from 'cors'
 // Routers
 import { homeRoutes, notificationRoutes } from './routers/index.js'
 
@@ -48,7 +48,7 @@ const app = express();
 
 // Middleware for parsing JSON
 app.use(express.json());
-
+app.use(cors());
 const port = process.env.PORT ?? 3000;
 
 // Router
