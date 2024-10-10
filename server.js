@@ -56,7 +56,6 @@ app.use('/', homeRoutes);
 // app.use('/api/v1/', authRoutes);
 // app.use('/api/v1/candidates', candidateRouter);
 app.use('/api/v1/notification', notificationRoutes);
-
 // Start the server without connecting to MongoDB
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
