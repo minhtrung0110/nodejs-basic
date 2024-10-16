@@ -30,3 +30,5 @@ Thumbs.db
 npm-debug.log
 config/firebase_key.json
 .env.development.local
+
+yarn.lock

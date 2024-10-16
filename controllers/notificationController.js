@@ -63,13 +63,16 @@ const create = async (req, res) => {
     console.log('Received notification request:', req.body)
     try {
         const { token, title, message, link } = req.body
-
+        const created_at = admin.firestore.FieldValue.serverTimestamp()
         // Prepare the message payload
         const payload = {
             token,
             notification: {
                 title: title,
                 body: message,
+            },
+            data: {
+                created_at: created_at.toString(),
             },
             webpush: link ? {
                 fcmOptions: {
