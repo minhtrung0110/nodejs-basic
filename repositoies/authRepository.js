@@ -3,10 +3,11 @@ import { OutputType } from '../helper/print.js'
 import Exception from '../exceptions/Exception.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
 
 const login = async ({ email, password }) => {
     try {
-        let existingUser = await Candidate.findOne({ email }).exec()
+        let existingUser = await User.findOne({ email }).exec()
         const isMatched = await bcrypt.compare(password, existingUser.password)
         if (!!isMatched) {
             // create Java Web Token
@@ -40,7 +41,7 @@ const register = async ({
 }) => {
     // eslint-disable-next-line no-debugger
     debugger
-    let existingUser = await Candidate.findOne({ email }).exec()
+    let existingUser = await User.findOne({ email }).exec()
     if (!!existingUser) {
         throw new Exception('User already registered', OutputType.ERROR)
     }

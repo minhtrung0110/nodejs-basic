@@ -1,4 +1,5 @@
-import notificationRoutes from './notifications.js'
+import candidateRouter from './candiates.js'
+import authRoutes from './auth.js'
 import homeRoutes from './home.js'
 
-export { notificationRoutes, homeRoutes }
+export { candidateRouter, authRoutes, homeRoutes }
